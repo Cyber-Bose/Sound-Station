@@ -1,4 +1,4 @@
-let currentsong = new Audio;
+ let currentsong = new Audio;
 let currentSongIndex = -1; // Initialize to -1 to indicate no song is playing initially
 
 function secondsToMinutesSeconds(seconds) {
@@ -16,7 +16,7 @@ function secondsToMinutesSeconds(seconds) {
 }
 
 async function getSongs() {
-    let a = await fetch("http://127.0.0.1:3000/Spotify%20Clone/songs/");
+    let a = await fetch(" http://127.0.0.1:3000/songs/");
     let response = await a.text();
 
     let div = document.createElement("div");
@@ -36,13 +36,16 @@ async function getSongs() {
 }
 
 const playMusic = (track, index) => {
-    currentsong.src = "/Spotify%20Clone/songs/" + track;
+    // Encode the track name to handle spaces and special characters
+    const encodedTrack = encodeURIComponent(track);
+    currentsong.src = `http://127.0.0.1:3000/songs/${encodedTrack}`;
     currentsong.play();
     play.src = "img/pause.svg";
     document.querySelector(".songinfo").innerHTML = track.replaceAll("%20", " ");
     document.querySelector(".songtime").innerHTML = "00:00 / 00:00 ";
     currentSongIndex = index; // Update the current song index
 }
+
 
 async function main() {
     let songs = await getSongs();
